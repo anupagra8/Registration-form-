@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>स्वतंत्रता सेनानी उत्तराधिकारी परिवार समिति (रजि.)</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+    form {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: auto;
+    }
+    h2, p {
+      text-align: center;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <form id="firebaseForm">
+    <h2>स्वतंत्रता सेनानी उत्तराधिकारी परिवार समिति (रजि.)</h2>
+    <p>स्वतंत्रता सेनानियों के उत्तराधिकारी परिवारों को जोड़ने और एकजुट करने के उद्देश्य से बनाया गया है।</p>
+    <p><strong>कार्यालय:</strong> होटल ओम साई राम, पन्ना रोड, छतरपुर (म.प्र.)</p>
+
+    <label>दिनांक:</label>
+    <input type="date" id="date" value="" required>
+
+    <label>नाम:</label>
+    <input type="text" id="name" placeholder="अपना नाम डालें" required>
+
+    <label>स्व. सं. से. / शहीद का नाम:</label>
+    <input type="text" id="fighterName" placeholder="स्वतंत्रता सेनानी/शहीद का नाम डालें" required>
+
+    <label>संबंध:</label>
+    <select id="relation" required>
+      <option value="पुत्र">पुत्र</option>
+      <option value="पुत्री">पुत्री</option>
+      <option value="पोता">पोता</option>
+      <option value="पोती">पोती</option>
+      <option value="नाती">नाती</option>
+      <option value="नातिन">नातिन</option>
+      <option value="पंती">पंती</option>
+      <option value="पंतन">पंतन</option>
+    </select>
+
+    <label>पता:</label>
+    <textarea id="address" placeholder="अपना पता लिखें" required></textarea>
+
+    <label>जिला:</label>
+    <select id="district" required>
+      <option value="" disabled selected>जिला चुनें</option>
+      <option value="Chhatarpur">Chhatarpur</option>
+      <option value="Burhanpur">Burhanpur</option>
+      <option value="Satna">Satna</option>
+      <option value="Rewa">Rewa</option>
+      <option value="Gwalior">Gwalior</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label>प्रान्त:</label>
+    <select id="state" required>
+      <option value="मध्य प्रदेश">मध्य प्रदेश</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label>मोबाइल नं.:</label>
+    <input type="tel" id="mobile" placeholder="10 अंकों का मोबाइल नंबर" pattern="[0-9]{10}" required>
+
+    <label>आधार नं.:</label>
+    <input type="number" id="aadhaar" placeholder="12 अंकों का आधार नंबर" required>
+
+    <label>संगठन जिससे आप जुड़े हैं:</label>
+    <input type="text" id="organization" placeholder="संगठन का नाम लिखें">
+
+    <button type="button" id="submitForm">जमा करें</button>
+  </form>
+
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC98Y8ivuKCjdRdjT96XFFUm2z9Q6l8ERE",
+      authDomain: "freedom-fighter-database.firebaseapp.com",
+      databaseURL: "https://freedom-fighter-database-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "freedom-fighter-database",
+      storageBucket: "freedom-fighter-database.firebasestorage.app",
+      messagingSenderId: "486134166623",
+      appId: "1:486134166623:web:8a6c267d53f5f1de0257ea"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Form Submission Logic
+    document.getElementById('submitForm').addEventListener('click', () => {
+      const date = document.getElementById('date').value;
+      const name = document.getElementById('name').value;
+      const fighterName = document.getElementById('fighterName').value;
+      const relation = document.getElementById('relation').value;
+      const address = document.getElementById('address').value;
+      const district = document.getElementById('district').value;
+      const state = document.getElementById('state').value;
+      const mobile = document.getElementById('mobile').value;
+      const aadhaar = document.getElementById('aadhaar').value;
+      const organization = document.getElementById('organization').value;
+
+      // Push Data to Firebase
+      firebase.database().ref('freedom_fighters').push({
+        date: date,
+        name: name,
+        fighterName: fighterName,
+        relation: relation,
+        address: address,
+        district: district,
+        state: state,
+        mobile: mobile,
+        aadhaar: aadhaar,
+        organization: organization
+      }).then(() => {
+        alert("डेटा सफलतापूर्वक सबमिट हुआ!");
+      }).catch((error) => {
+        alert("डेटा सबमिट करने में समस्या: " + error.message);
+      });
+    });
+  </script>
+</body>
+</html>
